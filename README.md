@@ -1,20 +1,22 @@
-# ngprogress-light
+# ngprogress-lite
 
 Nice looking slim progressbars provider for Angular.js applications.
 
-It's minimal bundle of more popular libs (see [references](https://github.com/voronianski/ngprogress-light#References)) to keep it as simple as possible.
+It's minimal bundle of more popular libs (see [references](https://github.com/voronianski/ngprogress-lite#References)) to keep it as simple as possible.
 
 ## Install
 
-You will need only to include ``ngprogress.css`` to your project, as well as adding ``ngprogress`` service in your controller or directive.
+You will need only to include ``ngprogress-lite.css`` to your project, as well as adding ``ngProgressLite`` service in your controller, service or directive.
 
-You can download ``ngprogress-light`` manually or install it with bower:
+You can download ``ngprogress-lite`` manually or install it with bower:
 
 ```bash
-bower install ngprogress-light
+bower install ngprogress-lite
 ```
 
-## API
+## Methods
+
+## Configuration
 
 ## References
 
