@@ -16,7 +16,7 @@ bower install ngprogress-lite
 
 ## Usage
 
-For simple usage you can call ``start()`` and ``done()``, for example:
+For simple usage you can just call ``start()`` and ``done()``, for example:
 
 ```javascript
 ngProgressLite.start();
@@ -29,10 +29,10 @@ For more advanced usage you can **set** the number between ``0`` and ``1`` to se
 
 ```javascript
 ngProgressLite.set(0.5);
-ngProgressLite.set('1.0');
+ngProgressLite.set(1.0);
 ```
 
-You can also **increment** the progress bar by random number. This will never get to ``100%``:
+You can also **increment** the progress bar by random number, this will never get to ``100%``:
 
 ```javascript
 ngProgressLite.inc();
@@ -47,7 +47,7 @@ Provider is highly customizable, here is the list of some options that you can s
 - ``ease`` - type of transition easings
 - and even ``template`` - but it's not recommended though :)
 
-Use ``ngProgressLiteProvider`` settings object in your module config, for example:
+Use ``ngProgressLiteProvider`` settings object in module's config:
 
 ```javascript
 angular.module('yourModule', ['ngProgressLite'])
