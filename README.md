@@ -23,7 +23,6 @@ bower install ngprogress-lite
 Inspired by Google, YouTube, Medium, etc.
 
 - [nprogress](https://github.com/rstacruz/nprogress/) - original jQuery dependant solution
-- [ngProgress](https://github.com/VictorBjelkholm/ngProgress) - its angular driven brother (a lot of code)
 
 ---
 

@@ -1,10 +1,10 @@
 {
-  "name": "ngProgress-lite",
+  "name": "ngprogress-lite",
   "main": "ngprogress-lite.js",
   "version": "0.0.1",
-  "homepage": "https://github.com/voronianski/ngprogress-light",
+  "homepage": "https://github.com/voronianski/ngprogress-lite",
   "authors": [
-    "Dmitri Voronianski"
+    "Dmitri Voronianski <dmitri.voronianski@gmail.com>"
   ],
   "license": "MIT",
   "private": true,
@@ -13,7 +13,9 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "example",
+    "Gruntfile.js"
   ],
   "dependencies": {
     "angular": "~1.0.8"
