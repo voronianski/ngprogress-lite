@@ -18,10 +18,10 @@
     "twitter": "voronianski"
   },
   "homepage": "http://labs.voronianski.com/ngprogress-lite.js",
-  "bugs": "https://github.com/voronianski/ngprogress-lite.js/issues",
+  "bugs": "https://github.com/voronianski/ngprogress-lite/issues",
   "repository": {
     "type": "git",
-    "url": "git://github.com/voronianski/ngprogress-lite.js.git"
+    "url": "git://github.com/voronianski/ngprogress-lite.git"
   },
   "readmeFilename": "README.md",
   "license": "MIT",
