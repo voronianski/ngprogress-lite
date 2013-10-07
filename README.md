@@ -42,7 +42,7 @@ ngProgressLite.inc();
 
 Provider is highly customizable, here is the list of some options that you can specify:
 
-- ``minimum`` - change the minimum percentage (defaults to ``0.01``)
+- ``minimum`` - change the minimum percentage (defaults to ``0.08``)
 - ``speed`` - speed of transition animations (defaults to ``300``)
 - ``ease`` - type of transition easings
 - and even ``template`` - but it's not recommended though :)
