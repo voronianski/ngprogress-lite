@@ -3,8 +3,11 @@ angular.module('ngprogress.provider', []).provider('$ngprogress', function () {
 
 	// global configs
 	var minimum = 0.08;
+	var speed = 300;
+	var ease = 'ease';
 	var trickleRate = 0.02;
 	var trickleSpeed = 500;
+	var showSpinner = true;
 	var template = '<div class="ngProgressLite"><div class="ngProgressLiteBar" role="bar"><div class="peg"></div></div></div>';
 
 	this.$get = ['$document', '$timeout', '$compile', '$rootScope', function ($document, $timeout, $compile, $rootScope) {
@@ -14,19 +17,21 @@ angular.module('ngprogress.provider', []).provider('$ngprogress', function () {
 
 		var privateMethods = {
 			render: function (fromStart) {
+				console.warn(this.isRendered());
+				console.warn($progressBarEl);
 				if (this.isRendered()) {
 					return $progressBarEl;
 				}
 
-				var percents = fromStart ? '100' : this.toBarPercents(status || 0);
-
-				$progressBarEl = $compile(template)($rootScope);
-				$progressBarEl.children('[role="bar"]').css({
-					'width': percents + '%'
-				});
-
+				$body.addClass('ngProgressLite-on');
+				$progressBarEl = angular.element(template);
 				$body.append($progressBarEl);
 				return $progressBarEl;
+			},
+
+			remove: function () {
+				$body.removeClass('ngProgressLite-on');
+				$progressBarEl.remove();
 			},
 
 			isStarted: function () {
@@ -34,7 +39,7 @@ angular.module('ngprogress.provider', []).provider('$ngprogress', function () {
 			},
 
 			isRendered: function () {
-				return $progressBarEl && $progressBarEl.length > 0;
+				return $progressBarEl && $progressBarEl.children.length > 0;
 			},
 
 			trickle: function () {
@@ -52,7 +57,7 @@ angular.module('ngprogress.provider', []).provider('$ngprogress', function () {
 			},
 
 			positioning: function (num, speed, ease) {
-				return { 'width': this.toBarPercents(num) + '%' };
+				return { 'width': this.toBarPercents(num) + '%', 'transition': 'all '+speed+'ms '+ease };
 			}
 		};
 
@@ -64,10 +69,15 @@ angular.module('ngprogress.provider', []).provider('$ngprogress', function () {
 				num = privateMethods.clamp(num, minimum, 1);
 				status = (num === 1 ? null : num);
 
-				if (num === 1) {
+				$timeout(function () {
+					$progress.children().css(privateMethods.positioning(num, speed, ease));
+				}, 100);
 
+				if (num === 1) {
+					$timeout(function () {
+						privateMethods.remove();
+					}, speed);
 				}
-				$progress.children('[role="bar"]').css(privateMethods.positioning(num));
 
 				return this;
 			},
@@ -79,6 +89,7 @@ angular.module('ngprogress.provider', []).provider('$ngprogress', function () {
 
 				var worker = function () {
 					$timeout(function () {
+						if (!status) { return; }
 						privateMethods.trickle();
 						worker();
 					}, trickleSpeed);
