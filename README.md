@@ -2,7 +2,7 @@
 
 Nice looking slim progress bars provider for Angular.js applications.
 
-It's minimal bundle of more popular libs (see [references](https://github.com/voronianski/ngprogress-lite#References)) to keep it as simple as possible.
+It's minimal bundle of more popular libs (see [references](https://github.com/voronianski/ngprogress-lite#references)) to keep it as simple as possible.
 
 ## Install
 
