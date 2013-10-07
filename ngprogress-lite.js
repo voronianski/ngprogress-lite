@@ -5,131 +5,130 @@
  * (c) 2013 MIT License
  */
 
-angular.module('ngProgressLite', []).provider('ngProgressLite', function () {
+(function (window, angular, undefined) {
 	'use strict';
 
-	// global configs
-	var settings = this.settings = {
-		minimum: 0.08,
-		speed: 300,
-		ease: 'ease',
-		trickleRate: 0.02,
-		trickleSpeed: 500,
-		template: '<div class="ngProgressLite"><div class="ngProgressLiteBar"><div class="ngProgressLiteBarShadow"></div></div></div>'
-	};
+	angular.module('ngProgressLite', []).provider('ngProgressLite', function () {
 
-	this.$get = ['$document', '$timeout', function ($document, $timeout) {
-		var $body = $document.find('body');
-		var $progressBarEl, status, cleanForElement;
+		// global configs
+		var settings = this.settings = {
+			minimum: 0.08,
+			speed: 300,
+			ease: 'ease',
+			trickleRate: 0.02,
+			trickleSpeed: 500,
+			template: '<div class="ngProgressLite"><div class="ngProgressLiteBar"><div class="ngProgressLiteBarShadow"></div></div></div>'
+		};
 
-		var privateMethods = {
-			render: function () {
-				if (this.isRendered()) {
+		this.$get = ['$document', '$timeout', function ($document, $timeout) {
+			var $body = $document.find('body');
+			var $progressBarEl, status, cleanForElement;
+
+			var privateMethods = {
+				render: function () {
+					if (this.isRendered()) {
+						return $progressBarEl;
+					}
+
+					$body.addClass('ngProgressLite-on');
+					$progressBarEl = angular.element(settings.template);
+					$body.append($progressBarEl);
+					cleanForElement = false;
+
 					return $progressBarEl;
+				},
+
+				remove: function () {
+					$body.removeClass('ngProgressLite-on');
+					$progressBarEl.remove();
+					cleanForElement = true;
+				},
+
+				isRendered: function () {
+					return $progressBarEl && $progressBarEl.children().length > 0 && !cleanForElement;
+				},
+
+				trickle: function () {
+					return publicMethods.inc(Math.random() * settings.trickleRate);
+				},
+
+				clamp: function (num, min, max) {
+					if (num < min) { return min; }
+					if (num > max) { return max; }
+					return num;
+				},
+
+				toBarPercents: function (num) {
+					return num * 100;
+				},
+
+				positioning: function (num, speed, ease) {
+					return { 'width': this.toBarPercents(num) + '%', 'transition': 'all ' + speed + 'ms '+ ease };
 				}
+			};
 
-				$body.addClass('ngProgressLite-on');
-				$progressBarEl = angular.element(settings.template);
-				$body.append($progressBarEl);
-				cleanForElement = false;
+			var publicMethods = {
+				set: function (num) {
+					var $progress = privateMethods.render();
 
-				return $progressBarEl;
-			},
+					num = privateMethods.clamp(num, settings.minimum, 1);
+					status = (num === 1 ? null : num);
 
-			remove: function () {
-				$body.removeClass('ngProgressLite-on');
-				$progressBarEl.remove();
-				cleanForElement = true;
-			},
-
-			isStarted: function () {
-				return typeof status === 'number';
-			},
-
-			isRendered: function () {
-				return $progressBarEl && $progressBarEl.children().length > 0 && !cleanForElement;
-			},
-
-			trickle: function () {
-				return publicMethods.inc(Math.random() * settings.trickleRate);
-			},
-
-			clamp: function (num, min, max) {
-				if (num < min) { return min; }
-				if (num > max) { return max; }
-				return num;
-			},
-
-			toBarPercents: function (num) {
-				return num * 100;
-			},
-
-			positioning: function (num, speed, ease) {
-				return { 'width': this.toBarPercents(num) + '%', 'transition': 'all ' + speed + 'ms '+ ease };
-			}
-		};
-
-		var publicMethods = {
-			set: function (num) {
-				var started = privateMethods.isStarted();
-				var $progress = privateMethods.render();
-
-				num = privateMethods.clamp(num, settings.minimum, 1);
-				status = (num === 1 ? null : num);
-
-				$timeout(function () {
-					$progress.children().css(privateMethods.positioning(num, settings.speed, settings.ease));
-				}, 100);
-
-				if (num === 1) {
 					$timeout(function () {
-						$progress.css({ 'transition': 'all ' + settings.speed + 'ms linear', 'opacity': 0 });
+						$progress.children().css(privateMethods.positioning(num, settings.speed, settings.ease));
+					}, 100);
+
+					if (num === 1) {
 						$timeout(function () {
-							privateMethods.remove();
+							$progress.css({ 'transition': 'all ' + settings.speed + 'ms linear', 'opacity': 0 });
+							$timeout(function () {
+								privateMethods.remove();
+							}, settings.speed);
 						}, settings.speed);
-					}, settings.speed);
+					}
+
+					return this;
+				},
+
+				start: function () {
+					if (!status) {
+						this.set(0);
+					}
+
+					var worker = function () {
+						$timeout(function () {
+							if (!status) { return; }
+							privateMethods.trickle();
+							worker();
+						}, settings.trickleSpeed);
+					};
+
+					worker();
+					return this;
+				},
+
+				inc: function (amount) {
+					var n = status;
+
+					if (!n) {
+						return this.start();
+					}
+
+					if (typeof amount !== 'number') {
+						amount = (1 - n) * privateMethods.clamp(Math.random() * n, 0.1, 0.95);
+					}
+
+					n = privateMethods.clamp(n + amount, 0, 0.994);
+					return this.set(n);
+				},
+
+				done: function () {
+					this.inc(0.3 + 0.5 * Math.random()).set(1);
 				}
+			};
 
-				return this;
-			},
+			return publicMethods;
+		}];
+	});
 
-			start: function () {
-				if (!status) {
-					this.set(0);
-				}
-
-				var worker = function () {
-					$timeout(function () {
-						if (!status) { return; }
-						privateMethods.trickle();
-						worker();
-					}, settings.trickleSpeed);
-				};
-
-				worker();
-				return this;
-			},
-
-			inc: function (amount) {
-				var n = status;
-
-				if (!n) {
-					return this.start();
-				}
-
-				if (typeof amount !== 'number') {
-					amount = (1 - n) * privateMethods.clamp(Math.random() * n, 0.1, 0.95);
-				}
-
-				n = privateMethods.clamp(n + amount, 0, 0.994);
-				return this.set(n);
-			},
-
-			done: function () {
-				this.inc(0.3 + 0.5 * Math.random()).set(1);
-			}
-		};
-
-		return publicMethods;
-	}];
-});
+})(window, window.angular);
