@@ -1,37 +1,45 @@
-angular.module('ngprogress.provider', []).provider('$ngprogress', function () {
+/*
+ * ngProgressLite - small && slim angular progressbars
+ * http://github.com/voronianski/ngprogress-lite
+ * Dmitri Voronianski http://pixelhunter.me
+ * (c) 2013 MIT License
+ */
+
+angular.module('ngProgressLite', []).provider('ngProgressLite', function () {
 	'use strict';
 
 	// global configs
-	var minimum = 0.08;
-	var speed = 300;
-	var ease = 'ease';
-	var trickleRate = 0.02;
-	var trickleSpeed = 500;
-	var showSpinner = true;
-	var template = '<div class="ngProgressLite"><div class="ngProgressLiteBar" role="bar"><div class="peg"></div></div></div>';
+	var settings = this.settings = {
+		minimum: 0.08,
+		speed: 300,
+		ease: 'ease',
+		trickleRate: 0.02,
+		trickleSpeed: 500,
+		template: '<div class="ngProgressLite"><div class="ngProgressLiteBar"><div class="ngProgressLiteBarShadow"></div></div></div>'
+	};
 
-	this.$get = ['$document', '$timeout', '$compile', '$rootScope', function ($document, $timeout, $compile, $rootScope) {
+	this.$get = ['$document', '$timeout', function ($document, $timeout) {
 		var $body = $document.find('body');
-		var $progressBarEl;
-		var status;
+		var $progressBarEl, status, cleanForElement;
 
 		var privateMethods = {
-			render: function (fromStart) {
-				console.warn(this.isRendered());
-				console.warn($progressBarEl);
+			render: function () {
 				if (this.isRendered()) {
 					return $progressBarEl;
 				}
 
 				$body.addClass('ngProgressLite-on');
-				$progressBarEl = angular.element(template);
+				$progressBarEl = angular.element(settings.template);
 				$body.append($progressBarEl);
+				cleanForElement = false;
+
 				return $progressBarEl;
 			},
 
 			remove: function () {
 				$body.removeClass('ngProgressLite-on');
 				$progressBarEl.remove();
+				cleanForElement = true;
 			},
 
 			isStarted: function () {
@@ -39,11 +47,11 @@ angular.module('ngprogress.provider', []).provider('$ngprogress', function () {
 			},
 
 			isRendered: function () {
-				return $progressBarEl && $progressBarEl.children.length > 0;
+				return $progressBarEl && $progressBarEl.children().length > 0 && !cleanForElement;
 			},
 
 			trickle: function () {
-				return publicMethods.inc(Math.random() * trickleRate);
+				return publicMethods.inc(Math.random() * settings.trickleRate);
 			},
 
 			clamp: function (num, min, max) {
@@ -57,7 +65,7 @@ angular.module('ngprogress.provider', []).provider('$ngprogress', function () {
 			},
 
 			positioning: function (num, speed, ease) {
-				return { 'width': this.toBarPercents(num) + '%', 'transition': 'all '+speed+'ms '+ease };
+				return { 'width': this.toBarPercents(num) + '%', 'transition': 'all ' + speed + 'ms '+ ease };
 			}
 		};
 
@@ -66,17 +74,20 @@ angular.module('ngprogress.provider', []).provider('$ngprogress', function () {
 				var started = privateMethods.isStarted();
 				var $progress = privateMethods.render();
 
-				num = privateMethods.clamp(num, minimum, 1);
+				num = privateMethods.clamp(num, settings.minimum, 1);
 				status = (num === 1 ? null : num);
 
 				$timeout(function () {
-					$progress.children().css(privateMethods.positioning(num, speed, ease));
+					$progress.children().css(privateMethods.positioning(num, settings.speed, settings.ease));
 				}, 100);
 
 				if (num === 1) {
 					$timeout(function () {
-						privateMethods.remove();
-					}, speed);
+						$progress.css({ 'transition': 'all ' + settings.speed + 'ms linear', 'opacity': 0 });
+						$timeout(function () {
+							privateMethods.remove();
+						}, settings.speed);
+					}, settings.speed);
 				}
 
 				return this;
@@ -92,7 +103,7 @@ angular.module('ngprogress.provider', []).provider('$ngprogress', function () {
 						if (!status) { return; }
 						privateMethods.trickle();
 						worker();
-					}, trickleSpeed);
+					}, settings.trickleSpeed);
 				};
 
 				worker();
@@ -107,7 +118,7 @@ angular.module('ngprogress.provider', []).provider('$ngprogress', function () {
 				}
 
 				if (typeof amount !== 'number') {
-					amount = (1 - n) * clamp(Math.random() * n, 0.1, 0.95);
+					amount = (1 - n) * privateMethods.clamp(Math.random() * n, 0.1, 0.95);
 				}
 
 				n = privateMethods.clamp(n + amount, 0, 0.994);
@@ -122,5 +133,3 @@ angular.module('ngprogress.provider', []).provider('$ngprogress', function () {
 		return publicMethods;
 	}];
 });
-
-angular.module('ngprogress', ['ngprogress.provider']);

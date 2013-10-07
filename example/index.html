@@ -8,28 +8,40 @@
 <body ng-controller="MainCtrl">
 
 	<button ng-click="start()">Start</button>
-	<button ng-click="increment()">Set (0.4)</button>
+	<button ng-click="set()">Set (0.4)</button>
+	<button ng-click="inc()">Inc</button>
 	<button ng-click="done()">Done</button>
 
 	<script src="../bower_components/angular/angular.min.js"></script>
 	<script src="../ngprogress-lite.js"></script>
 	<script>
-		var app = angular.module('exampleProgress', ['ngprogress']);
+		var app = angular.module('exampleProgress', ['ngProgressLite']);
 
-		app.controller('MainCtrl', function ($scope, $ngprogress, $timeout) {
-			$scope.increment = function () {
-				$ngprogress.set(0.4);
+		app.config(['ngProgressLiteProvider', function (ngProgressLiteProvider) {
+			ngProgressLiteProvider.settings.ease = 'ease-in';
+		}]);
+
+		app.controller('MainCtrl', function ($scope, ngProgressLite, $timeout) {
+			ngProgressLite.start();
+			$timeout(function () {
+				ngProgressLite.done();
+			}, 1000);
+
+			$scope.set = function () {
+				ngProgressLite.set(0.4);
 			};
 
 			$scope.start = function () {
-				$ngprogress.start();
+				ngProgressLite.start();
+			};
+
+			$scope.inc = function () {
+				ngProgressLite.inc();
 			};
 
 			$scope.done = function () {
-				$ngprogress.done();
+				ngProgressLite.done();
 			};
-			//$ngprogress.start();
-			//$timeout($ngprogress.done(), 2000);
 		});
 	</script>
 </body>
