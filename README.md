@@ -1,6 +1,6 @@
 # ngprogress-lite
 
-Nice looking slim progressbars provider for Angular.js applications.
+Nice looking slim progress bars provider for Angular.js applications.
 
 It's minimal bundle of more popular libs (see [references](https://github.com/voronianski/ngprogress-lite#References)) to keep it as simple as possible.
 
@@ -14,9 +14,51 @@ You can download ``ngprogress-lite`` manually or install it with bower:
 bower install ngprogress-lite
 ```
 
-## Methods
+## Usage
+
+For simple usage you can call ``start()`` and ``done()``, for example:
+
+```javascript
+ngProgressLite.start();
+$timeout(function () {
+	ngProgressLite.done();
+}, 2000);
+```
+
+For more advanced usage you can **set** the number between ``0`` and ``1`` to set progress bar to specific state:
+
+```javascript
+ngProgressLite.set(0.5);
+ngProgressLite.set('1.0');
+```
+
+You can also **increment** the progress bar by random number. This will never get to ``100%``:
+
+```javascript
+ngProgressLite.inc();
+```
 
 ## Configuration
+
+Provider is highly customizable, here is the list of some options that you can specify:
+
+- ``minimum`` - change the minimum percentage (defaults to ``0.01``)
+- ``speed`` - speed of transition animations (defaults to ``300``)
+- ``ease`` - type of transition easings
+- and even ``template`` - but it's not recommended though :)
+
+Use ``ngProgressLiteProvider`` settings object in your module config, for example:
+
+```javascript
+angular.module('yourModule', ['ngProgressLite'])
+	.config(['ngProgressLiteProvider', function (ngProgressLiteProvider) {
+		ngProgressLiteProvider.settings.speed = 1500;
+	}]);
+```
+
+## Customization
+
+If you want to change progress bar's look, you need just edit tiny ``ngprogress-lite.css`` file. Feel free to rewrite it as you wish ;)
 
 ## References
 
