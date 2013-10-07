@@ -1,85 +1,115 @@
-angular.module('ngProgressLite').provider('$ngprogress', function () {
+angular.module('ngprogress.provider', []).provider('$ngprogress', function () {
 	'use strict';
 
 	// global configs
-	this.minimum = '0.08';
-	this.speed = 200;
-	this.easing = 'ease';
-	this.trickleRate = 0.02;
-	this.positionToUse = 'margin-left';
+	var minimum = 0.08;
+	var trickleRate = 0.02;
+	var trickleSpeed = 500;
+	var template = '<div class="ngProgressLite"><div class="ngProgressLiteBar" role="bar"><div class="peg"></div></div></div>';
 
-	var status;
-
-	this.$get = function ($document) {
-		// compile and append progress directive here
+	this.$get = ['$document', '$timeout', '$compile', '$rootScope', function ($document, $timeout, $compile, $rootScope) {
 		var $body = $document.find('body');
 		var $progressBarEl;
+		var status;
 
-		return {
-			set: function (num) {
-				var started = isStarted();
-				var speed = this.speed;
-				var ease = this.ease;
+		var privateMethods = {
+			render: function (fromStart) {
+				if (this.isRendered()) {
+					return $progressBarEl;
+				}
 
-				num = clamp(num, this.minimum, 1);
-				status = (num === 1 ? null : num);
-				$progressBarEl.css(positioning(num, speed, ease));
+				var percents = fromStart ? '100' : this.toBarPercents(status || 0);
+
+				$progressBarEl = $compile(template)($rootScope);
+				$progressBarEl.children('[role="bar"]').css({
+					'width': percents + '%'
+				});
+
+				$body.append($progressBarEl);
+				return $progressBarEl;
 			},
 
-			start: function () {},
+			isStarted: function () {
+				return typeof status === 'number';
+			},
+
+			isRendered: function () {
+				return $progressBarEl && $progressBarEl.length > 0;
+			},
+
+			trickle: function () {
+				return publicMethods.inc(Math.random() * trickleRate);
+			},
+
+			clamp: function (num, min, max) {
+				if (num < min) { return min; }
+				if (num > max) { return max; }
+				return num;
+			},
+
+			toBarPercents: function (num) {
+				return num * 100;
+			},
+
+			positioning: function (num, speed, ease) {
+				return { 'width': this.toBarPercents(num) + '%' };
+			}
+		};
+
+		var publicMethods = {
+			set: function (num) {
+				var started = privateMethods.isStarted();
+				var $progress = privateMethods.render();
+
+				num = privateMethods.clamp(num, minimum, 1);
+				status = (num === 1 ? null : num);
+
+				if (num === 1) {
+
+				}
+				$progress.children('[role="bar"]').css(privateMethods.positioning(num));
+
+				return this;
+			},
+
+			start: function () {
+				if (!status) {
+					this.set(0);
+				}
+
+				var worker = function () {
+					$timeout(function () {
+						privateMethods.trickle();
+						worker();
+					}, trickleSpeed);
+				};
+
+				worker();
+				return this;
+			},
 
 			inc: function (amount) {
 				var n = status;
 
 				if (!n) {
-					this.start();
-				} else if (typeof amount !== 'number') {
+					return this.start();
+				}
+
+				if (typeof amount !== 'number') {
 					amount = (1 - n) * clamp(Math.random() * n, 0.1, 0.95);
 				}
 
-				n = clamp(n + amount, 0, 0.994);
+				n = privateMethods.clamp(n + amount, 0, 0.994);
 				return this.set(n);
 			},
 
-			trickle: function () {
-				return this.inc(Math.random() * this.trickleRate);
-			},
-
-			done: function () {}
+			done: function () {
+				this.inc(0.3 + 0.5 * Math.random()).set(1);
+			}
 		};
-	};
 
-	function isStarted () {
-		return typeof status === 'number';
-	}
-
-	function clamp (num, min, max) {
-		if (n < min) {
-			return min;
-		}
-		if (n > max) {
-			return max;
-		}
-		return n;
-	}
-
-	function toBarPercents (num) {
-		return (-1 + num) * 100;
-	}
-
-	function positioning (num, speed, ease) {
-		/* jshint validthis:true */
-		var barCSS;
-
-		if (this.positionToUse === 'translate3d') {
-			barCSS = { transform: 'translate3d(' + toBarPercents(num) + '%,0,0)' };
-		} else if (this.positionToUse === 'translate') {
-			barCSS = { transform: 'translate(' + toBarPercents(num) + '%,0)' };
-		} else {
-			barCSS = { 'margin-left': toBarPercents(num) + '%' };
-		}
-
-		barCSS.transition = 'all ' + speed + 'ms ' + ease;
-		return barCSS;
-	}
+		return publicMethods;
+	}];
 });
+
+angular.module('ngprogress', ['ngprogress.provider']);

@@ -1,0 +1,36 @@
+<!doctype html>
+<html ng-app="exampleProgress">
+<head>
+	<meta charset="utf-8">
+	<title>ngProgressLite demo</title>
+	<link rel="stylesheet" href="../ngprogress-lite.css">
+</head>
+<body ng-controller="MainCtrl">
+
+	<button ng-click="start()">Start</button>
+	<button ng-click="increment()">Inc (0.4)</button>
+	<button ng-click="done()">Done</button>
+
+	<script src="../bower_components/angular/angular.min.js"></script>
+	<script src="../ngprogress-lite.js"></script>
+	<script>
+		var app = angular.module('exampleProgress', ['ngprogress']);
+
+		app.controller('MainCtrl', function ($scope, $ngprogress, $timeout) {
+			$scope.increment = function () {
+				$ngprogress.set(0.4);
+			};
+
+			$scope.start = function () {
+				$ngprogress.start();
+			};
+
+			$scope.done = function () {
+				$ngprogress.done();
+			};
+			//$ngprogress.start();
+			//$timeout($ngprogress.done(), 2000);
+		});
+	</script>
+</body>
+</html>
