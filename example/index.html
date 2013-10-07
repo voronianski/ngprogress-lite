@@ -3,14 +3,126 @@
 <head>
 	<meta charset="utf-8">
 	<title>ngProgressLite demo</title>
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../ngprogress-lite.css">
+	<style>
+		* { margin: 0; padding: 0; border: 0; outline: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+		body {
+			font: 14px 'Source Sans Pro', Helvetica, Arial, sans-serif;
+			font-weight: 400;
+			overflow: hidden;
+		}
+		a {
+			color: #29d;
+			text-decoration: none;
+		}
+		a:hover {
+			text-decoration: underline;
+		}
+		.container {
+			opacity: 0;
+			-webkit-transition: all 500ms ease;
+			-ms-transition: all 500ms ease;
+			transition: all 500ms ease;
+		}
+		.wrap {
+			width: 500px;
+			margin: 120px auto 40px;
+			text-align: center;
+		}
+		.logo {
+			color: #333;
+			font-size: 32px;
+			font-weight: 300;
+			font-style: italic;
+			margin: 0 0 20px;
+		}
+		.logo sup {
+			color: #aaa;
+			font-size: 18px;
+		}
+		.desc {
+			color: #aaa;
+			font-size: 16px;
+			font-weight: 400;
+			margin: 0 0 30px;
+		}
+		button {
+			display: inline-block;
+			background: #fff;
+			color: #333;
+			border: 2px solid #333;
+			font: 13px 'Source Sans Pro', Helvetica, Arial, sans-serif;
+			font-weight: 700;
+			padding: 6px 12px;
+			margin: 0 8px;
+			cursor: pointer;
+			position: relative;
+			-webkit-transition: all 300ms ease;
+			-ms-transition: all 300ms ease;
+			transition: all 300ms ease;
+		}
+		button:hover {
+			color: #29d;
+			border-color: #29d;
+		}
+		.hr {
+			height: 1px;
+			width: 100px;
+			margin: 40px auto;
+			background: #ddd;
+		}
+		.socials {
+			width: 298px;
+			margin: 0 auto;
+		}
+		.twitter-share-button {
+			width: 90px !important;
+		}
+		.github-ribbon, .github-ribbon:hover {
+			display: block;
+			background: #2d9;
+			color: #fff;
+			padding: 8px 50px;
+			position: absolute;
+			top: 35px;
+			right: -45px;
+			text-decoration: none;
+			text-transform: lowercase;
+			-moz-transform: rotate(45deg);
+			-webkit-transform: rotate(45deg);
+			-o-transform: rotate(45deg);
+			-ms-transform: rotate(45deg);
+			transform: rotate(45deg);
+			z-index: 1;
+		}
+	</style>
 </head>
 <body ng-controller="MainCtrl">
 
-	<button ng-click="start()">Start</button>
-	<button ng-click="set()">Set (0.4)</button>
-	<button ng-click="inc()">Inc</button>
-	<button ng-click="done()">Done</button>
+	<div class="container" style="opacity: {{show}};">
+		<div class="wrap" ng-show="show">
+			<h2 class="logo">ngPROGRESS <sup>lite</sup></h2>
+			<p class="desc">Slim progress bars specially for <a href="http://angularjs.org/" target="_blank">Angular.js</a> applications.</p>
+			<button type="button" ng-click="start()">.start()</button>
+			<button type="button" ng-click="set()">.set(0.4)</button>
+			<button type="button" ng-click="inc()">.inc()</button>
+			<button type="button" ng-click="done()">.done()</button>
+		</div>
+		<div class="hr"></div>
+		<div class="socials">
+			<a href="https://twitter.com/share" class="twitter-share-button" data-via="voronianski" data-lang="en-gb" data-hashtags="ngprogresslite">Tweet</a>
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+			<iframe src="http://ghbtns.com/github-btn.html?user=voronianski&repo=ngprogress-lite&type=watch"
+	  allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe>
+			<iframe src="http://ghbtns.com/github-btn.html?user=voronianski&type=follow"
+	  allowtransparency="true" frameborder="0" scrolling="0" width="140" height="20"></iframe>
+		</div>
+
+		<a href="https://github.com/voronianski/ngprogress-lite" class="github-ribbon">Fork on Github</a>
+
+		<iframe src="http://labs.voronianski.com/media/frames/pixelhunter_color_24.html" name="pixelhunter_button" allowtransparency="true" scrolling="no" width="24" height="24" style="position: fixed; bottom: 10px; right: 10px; z-index: 100;">Your browser does not support iframe.</iframe>
+	</div>
 
 	<script src="../bower_components/angular/angular.min.js"></script>
 	<script src="../ngprogress-lite.min.js"></script>
@@ -22,10 +134,12 @@
 		}]);
 
 		app.controller('MainCtrl', function ($scope, ngProgressLite, $timeout) {
+			$scope.show = 0;
 			ngProgressLite.start();
 			$timeout(function () {
 				ngProgressLite.done();
-			}, 1000);
+				$scope.show = 1;
+			}, 1500);
 
 			$scope.set = function () {
 				ngProgressLite.set(0.4);
