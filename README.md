@@ -2,7 +2,11 @@
 
 Nice looking slim progress bars provider for Angular.js applications.
 
-It's a minimal bundle of more popular jQuery plugin (see [references](https://github.com/voronianski/ngprogress-lite#references)) but only for angular with similar API as in original one to keep things as simple as possible.
+It has similar API as in original popular jQuery plugin (see [references](https://github.com/voronianski/ngprogress-lite#references)) to keep things as simple as possible.
+
+The only dependency is [angular.js](http://angularjs.org/) framework.
+
+File size is ``~2kb`` when minified.
 
 ## Install
 
@@ -13,8 +17,6 @@ You can download ``ngprogress-lite.js`` manually or install it with bower:
 ```bash
 bower install ngprogress-lite
 ```
-
-The only dependency is [angular.js](http://angularjs.org/) framework.
 
 ## Usage
 
