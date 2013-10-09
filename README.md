@@ -10,12 +10,13 @@ File size is ``~2kb`` when minified.
 
 ## Install
 
-You will need only to include ``ngprogress-lite.css`` to your project, as well as adding ``ngProgressLite`` service in your controller, service or directive.
-
 You can download ``ngprogress-lite.js`` manually or install it with bower:
 
 ```bash
 bower install ngprogress-lite
+
+You will need only to include ``ngprogress-lite.css`` and ``ngprogress-lite.js`` to your project, and then you can start using ``ngProgressLite`` provider in your controllers, services or directives.
+
 ```
 
 ## Usage
