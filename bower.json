@@ -1,7 +1,7 @@
 {
   "name": "ngprogress-lite",
   "main": "ngprogress-lite.js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Angular provider for slim progress bars",
   "homepage": "https://github.com/voronianski/ngprogress-lite",
   "authors": [
@@ -22,6 +22,6 @@
     "Gruntfile.js"
   ],
   "dependencies": {
-    "angular": "~1.0.8"
+    "angular": "~1"
   }
 }
