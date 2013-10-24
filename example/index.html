@@ -100,7 +100,7 @@
 </head>
 <body ng-controller="MainCtrl">
 
-	<div class="container" style="opacity: {{show}};">
+	<div class="container" ng-style="{opacity: show}">
 		<div class="wrap" ng-show="show">
 			<h2 class="logo">ngPROGRESS <sup>lite</sup></h2>
 			<p class="desc">Slim progress bars specially for <a href="http://angularjs.org/" target="_blank">Angular.js</a> applications.</p>
