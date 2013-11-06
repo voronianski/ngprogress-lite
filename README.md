@@ -1,5 +1,7 @@
 # ngprogress-lite
 
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/voronianski/ngprogress-lite/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
 Nice looking slim progress bars provider for **Angular.js** applications.
 
 It has similar API as original popular jQuery plugin (see [references](https://github.com/voronianski/ngprogress-lite#references)) to keep things as simple as possible.
