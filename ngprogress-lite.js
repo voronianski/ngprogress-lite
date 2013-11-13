@@ -127,7 +127,7 @@
 				},
 
 				done: function () {
-					if (!status) {
+					if (status) {
 						publicMethods.inc(0.3 + 0.5 * Math.random()).set(1);
 					}
 				}
