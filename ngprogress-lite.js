@@ -90,6 +90,10 @@
 					return publicMethods;
 				},
 
+				get: function() {
+					return status;
+				},
+
 				start: function () {
 					if (!status) {
 						publicMethods.set(0);
@@ -123,7 +127,9 @@
 				},
 
 				done: function () {
-					publicMethods.inc(0.3 + 0.5 * Math.random()).set(1);
+					if (!status) {
+						publicMethods.inc(0.3 + 0.5 * Math.random()).set(1);
+					}
 				}
 			};
 
