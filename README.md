@@ -44,6 +44,12 @@ You can also **increment** the progress bar by random number (this will never ge
 ngProgressLite.inc();
 ```
 
+Also it is possible to get current state number of a progressbar:
+
+```javascript
+ngProgressLite.get()
+```
+
 ## Configuration
 
 Provider is highly customizable, here is the list of some options that you can specify:
