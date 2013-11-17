@@ -72,6 +72,8 @@ angular.module('yourModule', ['ngProgressLite'])
 
 If you want to change progress bar's look, you need just edit tiny ``ngprogress-lite.css`` file. Feel free to rewrite it as you wish ;)
 
+If you have some style issues, please be sure that ``ngprogress-lite.css`` is not overwritten by other styles (e.g. ``z-index`` Bootstrap's navbar - [link](https://github.com/voronianski/ngprogress-lite/issues/6))
+
 ## References
 
 Inspired by Google, YouTube, Medium, etc.
