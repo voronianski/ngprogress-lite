@@ -75,7 +75,7 @@
 					status = (num === 1 ? null : num);
 
 					$timeout(function () {
-						$progress.children().css(privateMethods.positioning(num, settings.speed, settings.ease));
+						$progress.children().eq(0).css(privateMethods.positioning(num, settings.speed, settings.ease));
 					}, 100);
 
 					if (num === 1) {
