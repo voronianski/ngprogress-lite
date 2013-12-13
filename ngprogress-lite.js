@@ -20,7 +20,7 @@
 			template: '<div class="ngProgressLite"><div class="ngProgressLiteBar"><div class="ngProgressLiteBarShadow"></div></div></div>'
 		};
 
-		this.$get = ['$document', '$timeout', function ($document, $timeout) {
+		this.$get = ['$document', function ($document) {
 			var $body = $document.find('body');
 			var $progressBarEl, status, cleanForElement;
 
@@ -74,14 +74,14 @@
 					num = privateMethods.clamp(num, settings.minimum, 1);
 					status = (num === 1 ? null : num);
 
-					$timeout(function () {
+					setTimeout(function () {
 						$progress.children().eq(0).css(privateMethods.positioning(num, settings.speed, settings.ease));
 					}, 100);
 
 					if (num === 1) {
-						$timeout(function () {
+						setTimeout(function () {
 							$progress.css({ 'transition': 'all ' + settings.speed + 'ms linear', 'opacity': 0 });
-							$timeout(function () {
+							setTimeout(function () {
 								privateMethods.remove();
 							}, settings.speed);
 						}, settings.speed);
@@ -100,7 +100,7 @@
 					}
 
 					var worker = function () {
-						$timeout(function () {
+						setTimeout(function () {
 							if (!status) { return; }
 							privateMethods.trickle();
 							worker();
