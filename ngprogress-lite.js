@@ -19,8 +19,6 @@
 			trickleSpeed: 500,
 			template: '<div class="ngProgressLite"><div class="ngProgressLiteBar"><div class="ngProgressLiteBarShadow"></div></div></div>'
 		};
-		
-		var stopping = false;
 
 		this.$get = ['$document', function ($document) {
 			var $body = $document.find('body');
@@ -76,14 +74,11 @@
 					num = privateMethods.clamp(num, settings.minimum, 1);
 					status = (num === 1 ? null : num);
 
-					if(!stopping) {
-						setTimeout(function () {
-							$progress.children().eq(0).css(privateMethods.positioning(num, settings.speed, settings.ease));
-						}, 100);
-					}
+					setTimeout(function () {
+						$progress.children().eq(0).css(privateMethods.positioning(num, settings.speed, settings.ease));
+					}, 100);
 
 					if (num === 1) {
-						stopping = true;
 						setTimeout(function () {
 							$progress.css({ 'transition': 'all ' + settings.speed + 'ms linear', 'opacity': 0 });
 							setTimeout(function () {
