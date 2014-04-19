@@ -1,6 +1,9 @@
 {
   "name": "ngprogress-lite",
-  "main": "ngprogress-lite.js",
+  "main": [
+    "ngprogress-lite.js",
+    "ngprogress-lite.css"
+  ],
   "version": "1.0.4",
   "description": "Angular provider for slim progress bars",
   "homepage": "https://github.com/voronianski/ngprogress-lite",
