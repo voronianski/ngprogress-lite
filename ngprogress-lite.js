@@ -5,7 +5,6 @@
  * (c) 2013 MIT License
  */
 
-
 (function (root, factory) {
     if (typeof module !== 'undefined' && module.exports) {
         // CommonJS
