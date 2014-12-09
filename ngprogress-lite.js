@@ -5,7 +5,19 @@
  * (c) 2013 MIT License
  */
 
-(function (window, angular, undefined) {
+
+(function (root, factory) {
+    if (typeof module !== 'undefined' && module.exports) {
+        // CommonJS
+        module.exports = factory(require('angular'));
+    } else if (typeof define === 'function' && define.amd) {
+        // AMD
+        define(['angular'], factory);
+    } else {
+        // Global Variables
+        factory(root.angular);
+    }
+}(this, function (angular, undefined) {
 	'use strict';
 
 	angular.module('ngProgressLite', []).provider('ngProgressLite', function () {
@@ -137,4 +149,4 @@
 		}];
 	});
 
-})(window, window.angular);
+}));

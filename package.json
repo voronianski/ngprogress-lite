@@ -1,6 +1,6 @@
 {
   "name": "ngprogress-lite",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Angular provider for slim progress bars",
   "keywords": [
     "ui",
