@@ -2,7 +2,7 @@
  * ngProgressLite - small && slim angular progressbars
  * http://github.com/voronianski/ngprogress-lite
  * Dmitri Voronianski http://pixelhunter.me
- * (c) 2013 MIT License
+ * (c) 2013-2014 MIT License
  */
 
 (function (root, factory) {
