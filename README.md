@@ -18,6 +18,12 @@ You can download ``ngprogress-lite.js`` manually or install it with bower:
 bower install ngprogress-lite
 ```
 
+or npm:
+
+```bash
+npm install ngprogress-lite
+```
+
 You will need only to include ``ngprogress-lite.css`` and ``ngprogress-lite.js`` to your project, and then you can start using ``ngProgressLite`` provider in your controllers, services or directives.
 
 ## Usage
