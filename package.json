@@ -10,7 +10,7 @@
     "angular",
     "progress"
   ],
-  "main": "./ngprogress-lite.js",
+  "main": "./index.js",
   "author": {
     "name": "Dmitri Voronianski",
     "email": "dmitri.voronianski@gmail.com",
