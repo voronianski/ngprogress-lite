@@ -19,7 +19,7 @@
 }(this, function (angular, undefined) {
 	'use strict';
 
-	angular.module('ngProgressLite', []).provider('ngProgressLite', function () {
+	return angular.module('ngProgressLite', []).provider('ngProgressLite', function () {
 
 		// global configs
 		var settings = this.settings = {
@@ -146,6 +146,6 @@
 
 			return publicMethods;
 		}];
-	});
+	}).name;
 
 }));
