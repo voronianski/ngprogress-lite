@@ -6,16 +6,16 @@
  */
 
 (function (root, factory) {
-    if (typeof module !== 'undefined' && module.exports) {
-        // CommonJS
-        module.exports = factory(require('angular'));
-    } else if (typeof define === 'function' && define.amd) {
-        // AMD
-        define(['angular'], factory);
-    } else {
-        // Global Variables
-        factory(root.angular);
-    }
+	if (typeof module !== 'undefined' && module.exports) {
+		// CommonJS
+		module.exports = factory(require('angular'));
+	} else if (typeof define === 'function' && define.amd) {
+		// AMD
+		define(['angular'], factory);
+	} else {
+		// Global Variables
+		factory(root.angular);
+	}
 }(this, function (angular, undefined) {
 	'use strict';
 
