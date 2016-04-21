@@ -6,20 +6,20 @@
  */
 
 (function (root, factory) {
-    if (typeof module !== 'undefined' && module.exports) {
-        // CommonJS
-        module.exports = factory(require('angular'));
-    } else if (typeof define === 'function' && define.amd) {
-        // AMD
-        define(['angular'], factory);
-    } else {
-        // Global Variables
-        factory(root.angular);
-    }
+	if (typeof module !== 'undefined' && module.exports) {
+		// CommonJS
+		module.exports = factory(require('angular'));
+	} else if (typeof define === 'function' && define.amd) {
+		// AMD
+		define(['angular'], factory);
+	} else {
+		// Global Variables
+		factory(root.angular);
+	}
 }(this, function (angular, undefined) {
 	'use strict';
 
-	angular.module('ngProgressLite', []).provider('ngProgressLite', function () {
+	return angular.module('ngProgressLite', []).provider('ngProgressLite', function () {
 
 		// global configs
 		var settings = this.settings = {
@@ -146,6 +146,6 @@
 
 			return publicMethods;
 		}];
-	});
+	}).name;
 
 }));
