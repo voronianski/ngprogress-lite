@@ -1,6 +1,6 @@
 {
   "name": "ngprogress-lite",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Angular provider for slim progress bars",
   "keywords": [
     "ui",
@@ -11,6 +11,9 @@
     "progress"
   ],
   "main": "./ngprogress-lite.js",
+  "scripts": {
+    "build": "grunt"
+  },
   "author": {
     "name": "Dmitri Voronianski",
     "email": "dmitri.voronianski@gmail.com",
@@ -27,7 +30,9 @@
   "license": "MIT",
   "devDependencies": {
     "grunt": "~0.4.1",
+    "grunt-cli": "^0.1.13",
     "grunt-contrib-jshint": "~0.6.4",
     "grunt-contrib-uglify": "~0.2.4"
-  }
+  },
+  "dependencies": {}
 }
