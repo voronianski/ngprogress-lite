@@ -34,7 +34,7 @@
 		this.$get = ['$document', function ($document) {
 			var $target;
 			if (settings.selector) {
-				var el = document.getElementsByClassName(settings.selector);
+				var el = document.querySelectorAll(settings.selector);
 				$target = angular.element(el);
 			} else {
 				$target = $document.find('body');
