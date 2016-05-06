@@ -33,8 +33,8 @@
 
 		this.$get = ['$document', function ($document) {
 			var $target;
-			if (settings.target) {
-				var el = document.getElementsByClassName(settings.target);
+			if (settings.selector) {
+				var el = document.getElementsByClassName(settings.selector);
 				$target = angular.element(el);
 			} else {
 				$target = $document.find('body');
