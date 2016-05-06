@@ -32,7 +32,13 @@
 		};
 
 		this.$get = ['$document', function ($document) {
-			var $body = $document.find('body');
+			var $target;
+			if (settings.target) {
+				var el = document.getElementsByClassName(settings.target);
+				$target = angular.element(el);
+			} else {
+				$target = $document.find('body');
+			}
 			var $progressBarEl, status, cleanForElement;
 
 			var privateMethods = {
@@ -41,16 +47,16 @@
 						return $progressBarEl;
 					}
 
-					$body.addClass('ngProgressLite-on');
+					$target.addClass('ngProgressLite-on');
 					$progressBarEl = angular.element(settings.template);
-					$body.append($progressBarEl);
+					$target.append($progressBarEl);
 					cleanForElement = false;
 
 					return $progressBarEl;
 				},
 
 				remove: function () {
-					$body.removeClass('ngProgressLite-on');
+					$target.removeClass('ngProgressLite-on');
 					$progressBarEl.remove();
 					cleanForElement = true;
 				},
